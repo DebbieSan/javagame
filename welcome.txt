@@ -1,0 +1,20 @@
+Welcome to the Adventures of Alice in Wonderland. 
+
+This is a text-based adventure game. The objective of this game is to collect points, save bunnies and get to the end without losing all your energy. 
+
+In this adventure, you are Alice, a young girl who gets lost in the wacky world of Wonderland. You will visit many locations to collect items that will help you throughout your adventure. 
+
+But be careful, some of these locations have mean spirited folks who will try to drain all your energy before you can reach the finish line!
+
+In each location, you will find different items and if you choose, you may collect them and enter them on your inventory.
+
+Additionally, you will find a safe room where you can leave your items safely and also restore your energy.
+
+To move from one room to another, perform actions such as pick item, you will use text commands. These text commands should be types as verb-noun combinations separated by a space.
+
+If at any point you wish to see these instructions again, please enter "i", lower case, on your keyboard.
+
+Let's get started!
+
+Entering the first location...
+

@@ -1,0 +1,88 @@
+public class Actions {
+
+    // grab go drop eat drink throw east west north south use open
+
+    // public void pick() {
+
+    // }
+
+    public GameState gameState;
+
+    public Actions(GameState gameState) {
+        this.gameState = gameState;
+    }
+
+    public void runCommand() {
+
+        switch (gameState.lastVerb) {
+            case "go":
+
+                if (gameState.isValidExit(gameState.lastNoun)) {
+
+                    gameState.setLocation(gameState.lastNoun);
+                    gameState.location.loadLocation();
+                } else {
+                    System.out.println("Not a valid direction.");
+                }
+
+                break;
+            case "open":
+                if (gameState.lastNoun.equals("i")) {
+                    gameState.inventory.show();
+                } else {
+                    System.out.println("Not something you can open. Did you mean to use 'i' to open your inventory?");
+                }
+                return;
+
+            case "grab":
+                for (Items roomItem : gameState.location.items) {
+                    // looking to see if item exists in the room
+                    if (roomItem.name.equals(gameState.lastNoun)) {
+                        gameState.location.items.remove(roomItem);
+                        // incrementing items count if found in player's inventory
+                        for (Items playerItem : gameState.inventory.inventory) {
+                            if (playerItem.name.equals(roomItem.name)) {
+                                playerItem.count += roomItem.count;
+                                System.out.println("You now have " + playerItem.count + " : " + playerItem.name + "\n");
+
+                                return;
+                            }
+
+                        }
+
+                        gameState.inventory.add(roomItem);
+                        System.out.println("You have added " + roomItem.name + " to your inventory.");
+                        return;
+                    }
+
+                }
+                System.out.println("Sorry no " + gameState.lastNoun + " in this room to grab.");
+                break;
+
+            case "place":
+                if (gameState.location.isSafeRoom == true) {
+                    for (Items item : gameState.inventory.inventory) {
+                        if (item.name.equals(gameState.lastNoun)) {
+                            gameState.inventory.remove(item);
+                            gameState.location.items.add(item);
+                            System.out.println("You have placed " + item.name + " in the safe room.");
+                            return;
+                        }
+                    }
+
+                } else {
+                    System.out.println("Sorry.You can only place items inside the safe room.");
+                    return;
+                }
+
+                System.out.println("No " + gameState.lastNoun + " is available in this room.");
+
+            default:
+
+                break;
+
+        }
+
+    }
+
+}
