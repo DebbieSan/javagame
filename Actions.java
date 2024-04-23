@@ -12,6 +12,22 @@ public class Actions {
         this.gameState = gameState;
     }
 
+    public void reducePlayerEnergy(GameState gameState) {
+        System.out.println(gameState.location.npc.characterName);
+        if (gameState.location.npc != null) {
+
+            if (gameState.location.npc.characterName.equals("Queen of Hearts")) {
+                gameState.player.energy -= 50;
+                System.out.println("You lost!");
+            } else if (gameState.location.npc.characterName.equals("King of Hearts")) {
+                gameState.player.energy -= 25;
+                System.out.println("You have lost 25 energy");
+
+            }
+        }
+
+    }
+
     public void runCommand() {
 
         switch (gameState.lastVerb) {
@@ -21,6 +37,7 @@ public class Actions {
 
                     gameState.setLocation(gameState.lastNoun);
                     gameState.location.loadLocation();
+                    reducePlayerEnergy(gameState);
                 } else {
                     System.out.println("Not a valid direction.");
                 }
@@ -29,7 +46,13 @@ public class Actions {
             case "open":
                 if (gameState.lastNoun.equals("i")) {
                     gameState.inventory.show();
-                } else {
+
+                } else if (gameState.lastNoun.equals("e")) {
+                    System.out.println("Your energy is: " + gameState.player.energy);
+
+                }
+
+                else {
                     System.out.println("Not something you can open. Did you mean to use 'i' to open your inventory?");
                 }
                 return;

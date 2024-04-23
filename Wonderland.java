@@ -11,15 +11,15 @@ public class Wonderland {
 
         // Create Alice
 
-        Characters alice = new Characters("alice");
+        Characters alice = new Characters("alice", 50);
 
         // Create other characters
 
-        Characters queenOfHearts = new Characters("Queen of Hearts");
-        Characters whiteRabbit = new Characters("White Rabbit");
-        Characters cheshireCat = new Characters("Cheshire Cat");
-        Characters madHatter = new Characters(" Mad Hatter");
-        Characters kingOfHearts = new Characters("King of Hearts");
+        Characters queenOfHearts = new Characters("Queen of Hearts", 50);
+        Characters whiteRabbit = new Characters("White Rabbit", 50);
+        Characters cheshireCat = new Characters("Cheshire Cat", 50);
+        Characters madHatter = new Characters(" Mad Hatter", 50);
+        Characters kingOfHearts = new Characters("King of Hearts", 50);
 
         ArrayList<Characters> charactersList = new ArrayList<>(
                 Arrays.asList(queenOfHearts, whiteRabbit, cheshireCat, madHatter, kingOfHearts));
@@ -62,12 +62,6 @@ public class Wonderland {
                 0,
                 10);
 
-        Items energy = new Items(
-                "energy",
-                "You have 50 energy power",
-                50,
-                1);
-
         Items apple = new Items(
                 "apple",
                 "This apple restores half of your energy",
@@ -82,7 +76,7 @@ public class Wonderland {
         String shortDescription = " Welcome back to the White Rabbit House! \n-------------------------------------------------------------------------------- ";
         Locations WhiteRabbitHouse = new Locations(roomExitHashMap, hasVisited, fullDescriptionFileName,
                 shortDescription, new ArrayList<>(Arrays.asList(cookie, cookie, bunny, bunny, coin, coin)),
-                false, charactersList);
+                false, charactersList, true);
 
         roomExitHashMap = new HashMap<String, Locations>();
         hasVisited = false;
@@ -90,21 +84,21 @@ public class Wonderland {
         shortDescription = " Welcome back to the Mad Hatter House!  \n--------------------------------------------------------------------------------";
         Locations MadHatterHouse = new Locations(roomExitHashMap, hasVisited, fullDescriptionFileName,
                 shortDescription, new ArrayList<>(Arrays.asList(bottle, bunny, bunny, bunny, coin)), false,
-                charactersList);
+                charactersList, false);
 
         roomExitHashMap = new HashMap<String, Locations>();
         hasVisited = false;
         fullDescriptionFileName = "MeadowOfLivingFlowers.txt";
         shortDescription = " Welcome back to the Meadow of the Living Flowers!  \n--------------------------------------------------------------------------------";
         Locations MeadowOfLivingFlowers = new Locations(roomExitHashMap, hasVisited, fullDescriptionFileName,
-                shortDescription, new ArrayList<>(Arrays.asList(key, coin, coin)), false, charactersList);
+                shortDescription, new ArrayList<>(Arrays.asList(key, coin, coin)), false, charactersList, false);
 
         roomExitHashMap = new HashMap<String, Locations>();
         hasVisited = false;
         fullDescriptionFileName = "SafeRoom.txt";
         shortDescription = " Welcome back to the Safe Room!  \n--------------------------------------------------------------------------------";
         Locations SafeRoom = new Locations(roomExitHashMap, hasVisited, fullDescriptionFileName,
-                shortDescription, new ArrayList<>(Arrays.asList(turkey, coin)), true, charactersList);
+                shortDescription, new ArrayList<>(Arrays.asList(turkey, coin)), true, charactersList, false);
 
         WhiteRabbitHouse.roomExitHashMap.put("east", MadHatterHouse);
 

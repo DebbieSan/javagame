@@ -18,9 +18,11 @@ public class Locations {
     boolean isSafeRoom = false;
     ArrayList<Characters> charactersList;
     Characters npc;
+    boolean noNpcsAllowed = false;
 
     public Locations(HashMap<String, Locations> roomExitHashMap, boolean hasVisited, String fullDescriptionFileName,
-            String shortDescription, ArrayList<Items> items, boolean isSafeRoom, ArrayList<Characters> charactersList) {
+            String shortDescription, ArrayList<Items> items, boolean isSafeRoom, ArrayList<Characters> charactersList,
+            boolean noNpcsAllowed) {
         this.roomExitHashMap = roomExitHashMap;
         this.hasVisited = hasVisited;
         this.fullDescriptionFileName = fullDescriptionFileName;
@@ -28,6 +30,7 @@ public class Locations {
         this.items = items;
         this.isSafeRoom = isSafeRoom;
         this.charactersList = charactersList;
+        this.noNpcsAllowed = noNpcsAllowed;
 
     }
 
@@ -57,18 +60,22 @@ public class Locations {
     }
 
     public void loadLocation() {
+        printExits();
+        displayItems();
+
+        // prevents monsters from entering the first room ( any room but only applicable
+        // to the first room, White Rabbit House, in this game)
+        if (noNpcsAllowed == false) {
+            CharacterGenerator();
+
+        }
+        displayCharacters();
         if (hasVisited) {
             System.out.println(shortDescription);
-            printExits();
-            displayItems();
-            displayCharacters();
 
         } else {
             getFullDescription(fullDescriptionFileName);
             hasVisited = true;
-            printExits();
-            displayItems();
-            displayCharacters();
 
         }
 
@@ -133,7 +140,7 @@ public class Locations {
     }
 
     public void displayCharacters() {
-        CharacterGenerator();
+
         if (this.npc != null) {
             System.out.println(npc.characterName + " is here");
         }
