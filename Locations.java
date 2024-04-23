@@ -4,6 +4,7 @@ import java.io.File; // Import the File class
 import java.io.FileNotFoundException; // Import this class to handle errors
 import java.util.Scanner; // Import the Scanner class to read text files
 import java.util.Set;
+import java.util.Random;//import the random number class
 
 public class Locations {
 
@@ -15,15 +16,18 @@ public class Locations {
     String shortDescription;
     ArrayList<Items> items;
     boolean isSafeRoom = false;
+    ArrayList<Characters> charactersList;
+    Characters npc;
 
     public Locations(HashMap<String, Locations> roomExitHashMap, boolean hasVisited, String fullDescriptionFileName,
-            String shortDescription, ArrayList<Items> items, boolean isSafeRoom) {
+            String shortDescription, ArrayList<Items> items, boolean isSafeRoom, ArrayList<Characters> charactersList) {
         this.roomExitHashMap = roomExitHashMap;
         this.hasVisited = hasVisited;
         this.fullDescriptionFileName = fullDescriptionFileName;
         this.shortDescription = shortDescription;
         this.items = items;
         this.isSafeRoom = isSafeRoom;
+        this.charactersList = charactersList;
 
     }
 
@@ -57,12 +61,14 @@ public class Locations {
             System.out.println(shortDescription);
             printExits();
             displayItems();
+            displayCharacters();
 
         } else {
             getFullDescription(fullDescriptionFileName);
             hasVisited = true;
             printExits();
             displayItems();
+            displayCharacters();
 
         }
 
@@ -104,6 +110,32 @@ public class Locations {
              * );
              * }
              */
+        }
+
+    }
+
+    // This randomly put a character in a room based on probability. Maybe no
+    // characters show depending on chance.
+
+    public void CharacterGenerator() {
+
+        // is there a character?
+
+        Random characterProbability = new Random();
+        double randomNumber = characterProbability.nextDouble();
+        double probabilityThreshold = 0.0;
+
+        if (randomNumber >= probabilityThreshold) {
+            this.npc = charactersList.get(0);
+
+        }
+
+    }
+
+    public void displayCharacters() {
+        CharacterGenerator();
+        if (this.npc != null) {
+            System.out.println(npc.characterName + " is here");
         }
 
     }
