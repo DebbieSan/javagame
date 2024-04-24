@@ -13,11 +13,10 @@ public class Actions {
     }
 
     public void reducePlayerEnergy(GameState gameState) {
-        System.out.println(gameState.location.npc.characterName);
         if (gameState.location.npc != null) {
-
             if (gameState.location.npc.characterName.equals("Queen of Hearts")) {
                 gameState.player.energy -= 50;
+                System.exit(0);
                 System.out.println("You lost!");
             } else if (gameState.location.npc.characterName.equals("King of Hearts")) {
                 gameState.player.energy -= 25;

@@ -5,6 +5,7 @@ import java.io.FileNotFoundException; // Import this class to handle errors
 import java.util.Scanner; // Import the Scanner class to read text files
 import java.util.Set;
 import java.util.Random;//import the random number class
+import java.util.Collections;
 
 public class Locations {
 
@@ -19,6 +20,7 @@ public class Locations {
     ArrayList<Characters> charactersList;
     Characters npc;
     boolean noNpcsAllowed = false;
+    boolean haveMet = false;
 
     public Locations(HashMap<String, Locations> roomExitHashMap, boolean hasVisited, String fullDescriptionFileName,
             String shortDescription, ArrayList<Items> items, boolean isSafeRoom, ArrayList<Characters> charactersList,
@@ -60,8 +62,6 @@ public class Locations {
     }
 
     public void loadLocation() {
-        printExits();
-        displayItems();
 
         // prevents monsters from entering the first room ( any room but only applicable
         // to the first room, White Rabbit House, in this game)
@@ -69,7 +69,7 @@ public class Locations {
             CharacterGenerator();
 
         }
-        displayCharacters();
+        characterEncounter();
         if (hasVisited) {
             System.out.println(shortDescription);
 
@@ -78,6 +78,9 @@ public class Locations {
             hasVisited = true;
 
         }
+        printExits();
+        displayItems();
+        displayCharacters();
 
     }
 
@@ -131,6 +134,7 @@ public class Locations {
         Random characterProbability = new Random();
         double randomNumber = characterProbability.nextDouble();
         double probabilityThreshold = 0.0;
+        Collections.shuffle(charactersList);
 
         if (randomNumber >= probabilityThreshold) {
             this.npc = charactersList.get(0);
@@ -147,4 +151,22 @@ public class Locations {
 
     }
 
+    public void characterEncounter() {
+        if (haveMet == false) {
+            try {
+                Scanner sc = new Scanner(new File(Characters.characterTextFile));
+
+                while (sc.hasNextLine()) {
+                    System.out.println(sc.nextLine());
+                }
+
+                sc.close();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+        } else {
+            System.out.println(npc.characterName + " says greets you again");
+
+        }
+    }
 }
