@@ -92,12 +92,19 @@ public class Actions {
                         }
                     }
 
-                } else {
+                }
+
+                else {
                     System.out.println("Sorry.You can only place items inside the safe room.");
                     return;
                 }
 
                 System.out.println("No " + gameState.lastNoun + " is available in this room.");
+            case "talk":
+
+                if (gameState.location.characterDialogue.hasNextLine()) {
+                    System.out.println(gameState.location.characterDialogue.nextLine());
+                }
 
             default:
 

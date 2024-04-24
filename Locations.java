@@ -21,6 +21,7 @@ public class Locations {
     Characters npc;
     boolean noNpcsAllowed = false;
     boolean haveMet = false;
+    Scanner characterDialogue;
 
     public Locations(HashMap<String, Locations> roomExitHashMap, boolean hasVisited, String fullDescriptionFileName,
             String shortDescription, ArrayList<Items> items, boolean isSafeRoom, ArrayList<Characters> charactersList,
@@ -66,10 +67,10 @@ public class Locations {
         // prevents monsters from entering the first room ( any room but only applicable
         // to the first room, White Rabbit House, in this game)
         if (noNpcsAllowed == false) {
-            CharacterGenerator();
+            characterGenerator();
 
         }
-        characterEncounter();
+
         if (hasVisited) {
             System.out.println(shortDescription);
 
@@ -81,6 +82,10 @@ public class Locations {
         printExits();
         displayItems();
         displayCharacters();
+        if (npc != null) {
+            startCharacterEncounter();
+
+        }
 
     }
 
@@ -127,7 +132,7 @@ public class Locations {
     // This randomly put a character in a room based on probability. Maybe no
     // characters show depending on chance.
 
-    public void CharacterGenerator() {
+    public void characterGenerator() {
 
         // is there a character?
 
@@ -151,16 +156,21 @@ public class Locations {
 
     }
 
-    public void characterEncounter() {
+    public void startCharacterEncounter() {
         if (haveMet == false) {
             try {
-                Scanner sc = new Scanner(new File(Characters.characterTextFile));
+                this.characterDialogue = new Scanner(new File(npc.characterTextFile));
+                System.out.println(characterDialogue.nextLine());
 
-                while (sc.hasNextLine()) {
-                    System.out.println(sc.nextLine());
-                }
+                /*
+                 * while (sc2.hasNextLine()) {
+                 * System.out.println(sc2.nextLine());
+                 * 
+                 * }
+                 */
 
-                sc.close();
+                haveMet = true;
+                // sc2.close();
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
