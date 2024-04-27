@@ -29,44 +29,46 @@ public class Wonderland {
         Items cookie = new Items(
                 "cookie",
                 "The cookie reads 'eat me'",
-                0,
-                1);
+                1,
+                -1
+                );
 
-        Items bottle = new Items(
+        Items bottle = new ItemSize(
                 "bottle",
                 "The bottle reads 'drink me'",
-                0,
-                1);
+                1,
+                1
+        );
 
         Items key = new Items(
                 "key",
                 "Use this key to enter through tiny doors.",
-                0,
-                1);
+                1,
+                0);
 
         Items turkey = new Items(
                 "turkey",
                 "Eat this turkey to recover your full energy.",
-                0,
-                1);
+                1,
+                50);
 
         Items bunny = new Items(
                 "bunny",
                 "Collect bunnies and keep them with you to protect them against evil.",
-                0,
-                1);
+                1,
+                0);
 
         Items coin = new Items(
                 "coin",
                 "Collect coins to increase points",
-                0,
-                10);
+                10,
+                0);
 
         Items apple = new Items(
                 "apple",
                 "This apple restores half of your energy",
-                25,
-                1);
+                1,
+                25);
 
         // load locations into memory
 

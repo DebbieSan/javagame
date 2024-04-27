@@ -55,6 +55,8 @@ public class Actions {
                     System.out.println("Not something you can open. Did you mean to use 'i' to open your inventory?");
                 }
                 return;
+            case "use":
+                
 
             case "grab":
                 for (Items roomItem : gameState.location.items) {

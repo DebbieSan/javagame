@@ -3,6 +3,7 @@ public class Characters {
     String characterName;
     int energy;
     String characterTextFile;
+    int size;
 
     public Characters(String characterName, int energy, String characterTextFile) {
         this.characterName = characterName;
