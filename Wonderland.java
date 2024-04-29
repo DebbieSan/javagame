@@ -86,7 +86,7 @@ public class Wonderland {
         Items coin = new Items(
                 "coin",
                 "Collect coins to increase points",
-                10,
+                1,
                 0);
 
         
@@ -106,12 +106,12 @@ public class Wonderland {
                 hasVisited,
                 fullDescriptionFileName,
                 shortDescription,
-                new ArrayList<>(Arrays.asList(transporter, cookie, cookie, bunny, bunny, coin, coin, mushroom, apple, turkey, butterfly, key)),
+                new ArrayList<>(Arrays.asList(transporter, cookie, cookie, bunny, bunny, coin, coin, mushroom, apple, turkey, butterfly, key, butterfly,butterfly, cookie, bottle)),
                 false,
                 charactersList,
                 true,
                 new ArrayList<>(Arrays.asList()),
-                new ArrayList<>(Arrays.asList())
+                0
         );
 
         roomExitHashMap = new HashMap<String, Locations>();
@@ -128,7 +128,7 @@ public class Wonderland {
                 charactersList,
                 false,
                 new ArrayList<>(Arrays.asList("key")),
-                new ArrayList<>(Arrays.asList())
+                0
 
         );
 
@@ -146,7 +146,7 @@ public class Wonderland {
                 charactersList,
                 true,
                 new ArrayList<>(Arrays.asList()),
-                new ArrayList<>(Arrays.asList())
+                0
 
         );
 
@@ -165,7 +165,7 @@ public class Wonderland {
                 charactersList,
                 false,
                 new ArrayList<>(Arrays.asList()),
-                new ArrayList<>(Arrays.asList())
+                -1  // Must eat cookies to be tiny to get in.
         );
 
         roomExitHashMap = new HashMap<String, Locations>();
@@ -182,7 +182,7 @@ public class Wonderland {
                 charactersList,
                 true,
                 new ArrayList<>(Arrays.asList()),
-                new ArrayList<>(Arrays.asList())
+                0
         );
 
         roomExitHashMap = new HashMap<String, Locations>();
@@ -199,9 +199,26 @@ public class Wonderland {
                 charactersList,
                 true,
                 new ArrayList<>(Arrays.asList()),
-                new ArrayList<>(Arrays.asList())
+                0
         );
 
+
+        roomExitHashMap = new HashMap<String, Locations>();
+        hasVisited = false;
+        fullDescriptionFileName = "TheWonderlandMaze.txt";
+        shortDescription = " Welcome back to The Wonderland Maze!  \n--------------------------------------------------------------------------------";
+        Locations WonderlandMaze = new Locations(
+                roomExitHashMap,
+                hasVisited,
+                fullDescriptionFileName,
+                shortDescription,
+                new ArrayList<>(Arrays.asList()),
+                false,
+                charactersList,
+                false,
+                new ArrayList<>(Arrays.asList()),
+                1 // Must be big to enter - use the bottle.
+        );
 
         WhiteRabbitHouse.roomExitHashMap.put("east", MadHatterHouse);
 
@@ -209,7 +226,11 @@ public class Wonderland {
 
         MadHatterHouse.roomExitHashMap.put("west", WhiteRabbitHouse);
 
+        MadHatterHouse.roomExitHashMap.put("east", WonderlandMaze);
+
         MadHatterHouse.roomExitHashMap.put("north", MeadowOfLivingFlowers);
+
+        WonderlandMaze.roomExitHashMap.put("west", MadHatterHouse);
 
         MeadowOfLivingFlowers.roomExitHashMap.put("south", MeadowOfLivingFlowers);
 

@@ -10,6 +10,6 @@ Use `grab` with item name to pick up the item.
 
 Use `place` with the item name to place the item in the current room.
 
-Use `talk` to talk with a character.
+Use `talk <character name>` to talk with a character.
 
 Use `exit game` to exit the game.

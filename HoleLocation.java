@@ -5,9 +5,9 @@ public class HoleLocation extends Locations {
 
     public HoleLocation(HashMap<String, Locations> roomExitHashMap, boolean hasVisited, String fullDescriptionFileName,
         String shortDescription, ArrayList<Items> items, boolean isSafeRoom, ArrayList<Characters> charactersList,
-        boolean noNpcsAllowed, ArrayList<String> entryRequirements, ArrayList<String> exitRequirements) {
+        boolean noNpcsAllowed, ArrayList<String> itemEntryRequirements, int sizeEntryRequirements) {
 
-        super(roomExitHashMap, hasVisited, fullDescriptionFileName, shortDescription, items, isSafeRoom, charactersList, noNpcsAllowed, entryRequirements, exitRequirements);
+        super(roomExitHashMap, hasVisited, fullDescriptionFileName, shortDescription, items, isSafeRoom, charactersList, noNpcsAllowed, itemEntryRequirements, sizeEntryRequirements);
     }
 
     @Override

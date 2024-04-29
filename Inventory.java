@@ -17,7 +17,11 @@ public class Inventory {
     }
 
     public void remove(Items item) {
+        if (item.count > 0) {
+            item.count -= 1;
+        } else {
         inventory.remove(item);
+        }
     }
 
     public void show() {

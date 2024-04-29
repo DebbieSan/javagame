@@ -16,12 +16,25 @@ public class Actions {
         this.gameState = gameState;
     }
 
-// reduces player health if King of Hearts is in the room and if queen is there, empties player health.
+    public void checkHealth(GameState gameState){
+        if (gameState.player.energy <= 0) {
+            System.out.println("Oh no! Your health has fallen to zero! You lost!");
+            System.exit(0);
+        }
+    }
 
+    // reduces player health if King of Hearts is in the room and if queen is there, empties player health.
     public void reducePlayerEnergy(GameState gameState) {
         if (gameState.location.npc != null) {
             if (gameState.location.npc.characterName.equals("Queen of Hearts")) {
-                gameState.player.energy -= 50;
+                Items bunny = gameState.inventory.checkAndGetItem("bunny");
+                if (bunny != null && bunny.count >= 5) {
+                   System.out.println("Lucky you! You saved enough bunnies to save your life! But you've lost 5 precious, lovable bunnies!");
+                   bunny.count -= 5;
+                   System.out.println("You now have " + bunny.count + " bunny");
+                } else {
+                    gameState.player.energy -= 50;
+                }
             } else if (gameState.location.npc.characterName.equals("King of Hearts")) {
                 gameState.player.energy -= 25;
                 System.out.println("You have lost 25 energy. Your energy is now " + (gameState.player.energy <= 0 ? 0 : gameState.player.energy));
@@ -29,10 +42,7 @@ public class Actions {
             }
         }
 
-        if (gameState.player.energy <= 0) {
-            System.out.println("Oh no! Your health has fallen to zero! You lost!");
-            System.exit(0);
-        }
+        checkHealth(gameState);
 
     }
 
@@ -42,10 +52,7 @@ public class Actions {
             case "go":
 
                 if (gameState.isValidExit(gameState.lastNoun)) {
-                   if(
-                        gameState.getLocation(gameState.lastNoun).playerMeetsEntryRequirements(gameState.inventory) &&
-                        gameState.location.playerMeetsExitRequirements(gameState.inventory)
-                    ){
+                   if (gameState.getLocation(gameState.lastNoun).playerMeetsEntryRequirements(gameState.inventory, gameState.player)) {
                        gameState.setLocation(gameState.lastNoun);
                        gameState.location.loadLocation();
                        reducePlayerEnergy(gameState);
@@ -89,10 +96,11 @@ public class Actions {
                 }
                 return;
             case "use":
-                if(gameState.lastNoun.equals("cookie") || gameState.lastNoun.equals("bottle") || gameState.lastNoun.equals("mushroom") || gameState.lastNoun.equals("apple") || gameState.lastNoun.equals("turkey") || gameState.lastNoun.equals("apple") || gameState.lastNoun.equals("butterfly")){
+                if(gameState.lastNoun.equals("cookie") || gameState.lastNoun.equals("bottle") || gameState.lastNoun.equals("mushroom") || gameState.lastNoun.equals("apple") || gameState.lastNoun.equals("turkey")|| gameState.lastNoun.equals("butterfly")){
                     Items item = gameState.inventory.checkAndGetItem(gameState.lastNoun);
                     item.useItem(gameState.player);
                     gameState.inventory.remove(item);
+                    checkHealth(gameState);
 
                 }else if(gameState.lastNoun.equals("transporter")){
                     Locations safeRoom = gameState.teleportLocation.get("safeRoom");
@@ -111,29 +119,43 @@ public class Actions {
                 
 
             case "grab":
-                for (Items roomItem : gameState.location.items) {
-                    // looking to see if item exists in the room
-                    if (roomItem.name.equals(gameState.lastNoun)) {
-                        gameState.location.items.remove(roomItem);
-                        // incrementing items count if found in player's inventory
-                        for (Items playerItem : gameState.inventory.inventory) {
-                            if (playerItem.name.equals(roomItem.name)) {
-                                playerItem.count += roomItem.count;
-                                System.out.println("You now have " + playerItem.count + " : " + playerItem.name + "\n");
-
-                                return;
-                            }
-
-                        }
-
-                        gameState.inventory.add(roomItem);
-                        System.out.println("You have added " + roomItem.name + " to your inventory.");
-                        return;
+                // Use
+                if (gameState.lastNoun.equals("all")) {
+                    // add all the items from the room to the player inventory
+                    for (Items item : gameState.location.items) {
+                        gameState.inventory.add(item);
                     }
 
+                    // remove all the items from the room
+                    for (Items item : gameState.location.items) {
+                        gameState.inventory.add(item);
+                    }
+                    break;
+                } else {
+                
+                    for (Items roomItem : gameState.location.items) {
+                        // looking to see if item exists in the room
+                        if (roomItem.name.equals(gameState.lastNoun)) {
+                            // incrementing items count if found in player's inventory
+                            gameState.location.items.remove(roomItem);
+                            for (Items playerItem : gameState.inventory.inventory) {
+                                if (playerItem.name.equals(roomItem.name)) {
+                                    playerItem.count += 1;
+                                    System.out.println("You now have " + playerItem.count + " : " + playerItem.name + "\n");
+
+                                    return;
+                                }
+
+                            }
+
+                            gameState.inventory.add(roomItem);
+                            System.out.println("You have added " + roomItem.name + " to your inventory.");
+                            return;
+                        }
+                    }
+                    System.out.println("Sorry no " + gameState.lastNoun + " in this room to grab.");
+                    break;
                 }
-                System.out.println("Sorry no " + gameState.lastNoun + " in this room to grab.");
-                break;
 
             case "place":
                 if (gameState.location.isSafeRoom == true) {
@@ -159,6 +181,8 @@ public class Actions {
                 if (gameState.location.characterDialogue.hasNextLine()) {
                     System.out.println(gameState.location.characterDialogue.nextLine());
                 }
+
+                return;
 
             case "exit":
                 System.exit(0);
