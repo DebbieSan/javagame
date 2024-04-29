@@ -1,3 +1,7 @@
+//this is the player's inventory NOT the room's inventory
+
+// this is loaded into `GameState` as player's inventory
+
 import java.util.ArrayList;
 
 public class Inventory {
@@ -28,4 +32,16 @@ public class Inventory {
 
         }
     }
+
+    public Items checkAndGetItem(String name){
+        for ( Items item : inventory){
+            if ( item.name.equals(name)){
+                return item;
+            }
+
+        }
+        return null;
+
+    }
 }
+

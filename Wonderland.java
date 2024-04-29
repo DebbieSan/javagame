@@ -26,7 +26,7 @@ public class Wonderland {
 
         // load items into memory
 
-        Items cookie = new Items(
+        Items cookie = new ItemSize(
                 "cookie",
                 "The cookie reads 'eat me'",
                 1,
@@ -40,17 +40,42 @@ public class Wonderland {
                 1
         );
 
+        Items mushroom = new ItemSize(
+                "mushroom",
+                "The mushroom helps you get back to normal",
+                1,
+                0);
+
+        Items butterfly = new ItemEnergy(
+                "butterfly",
+                "what a cute little butterfly, I bet I can use it!",
+                1,
+                -10);
+
         Items key = new Items(
                 "key",
                 "Use this key to enter through tiny doors.",
                 1,
                 0);
+        
+        Items transporter = new Items(
+                "transporter",
+                "Use this transporter to get out of tough situations.",
+                1,
+                0);
+        
 
-        Items turkey = new Items(
+        Items turkey = new ItemEnergy(
                 "turkey",
                 "Eat this turkey to recover your full energy.",
                 1,
                 50);
+
+        Items apple = new ItemEnergy(
+                "apple",
+                "This apple restores half of your energy",
+                1,
+                25);
 
         Items bunny = new Items(
                 "bunny",
@@ -64,11 +89,11 @@ public class Wonderland {
                 10,
                 0);
 
-        Items apple = new Items(
-                "apple",
-                "This apple restores half of your energy",
-                1,
-                25);
+        
+                
+        
+
+
 
         // load locations into memory
 
@@ -76,33 +101,111 @@ public class Wonderland {
         boolean hasVisited = false;
         String fullDescriptionFileName = "WhiteRabbitHouse.txt";
         String shortDescription = " Welcome back to the White Rabbit House! \n-------------------------------------------------------------------------------- ";
-        Locations WhiteRabbitHouse = new Locations(roomExitHashMap, hasVisited, fullDescriptionFileName,
-                shortDescription, new ArrayList<>(Arrays.asList(cookie, cookie, bunny, bunny, coin, coin)),
-                false, charactersList, true);
+        Locations WhiteRabbitHouse = new Locations(
+                roomExitHashMap,
+                hasVisited,
+                fullDescriptionFileName,
+                shortDescription,
+                new ArrayList<>(Arrays.asList(transporter, cookie, cookie, bunny, bunny, coin, coin, mushroom, apple, turkey, butterfly, key)),
+                false,
+                charactersList,
+                true,
+                new ArrayList<>(Arrays.asList()),
+                new ArrayList<>(Arrays.asList())
+        );
 
         roomExitHashMap = new HashMap<String, Locations>();
         hasVisited = false;
         fullDescriptionFileName = "MadHatterHouse.txt";
         shortDescription = " Welcome back to the Mad Hatter House!  \n--------------------------------------------------------------------------------";
-        Locations MadHatterHouse = new Locations(roomExitHashMap, hasVisited, fullDescriptionFileName,
-                shortDescription, new ArrayList<>(Arrays.asList(bottle, bunny, bunny, bunny, coin)), false,
-                charactersList, false);
+        Locations MadHatterHouse = new Locations(
+                roomExitHashMap,
+                hasVisited,
+                fullDescriptionFileName,
+                shortDescription,
+                new ArrayList<>(Arrays.asList(bottle, bunny, bunny, bunny, coin, mushroom, butterfly)),
+                false,
+                charactersList,
+                false,
+                new ArrayList<>(Arrays.asList("key")),
+                new ArrayList<>(Arrays.asList())
+
+        );
+
+        roomExitHashMap = new HashMap<String, Locations>();
+        hasVisited = false;
+        fullDescriptionFileName = "HoleRoom.txt";
+        shortDescription = " Welcome back to the Hole Room!  \n--------------------------------------------------------------------------------";
+        Locations HoleRoom = new HoleLocation(
+                roomExitHashMap,
+                hasVisited,
+                fullDescriptionFileName,
+                shortDescription,
+                new ArrayList<>(Arrays.asList()),
+                false,
+                charactersList,
+                true,
+                new ArrayList<>(Arrays.asList()),
+                new ArrayList<>(Arrays.asList())
+
+        );
+
 
         roomExitHashMap = new HashMap<String, Locations>();
         hasVisited = false;
         fullDescriptionFileName = "MeadowOfLivingFlowers.txt";
         shortDescription = " Welcome back to the Meadow of the Living Flowers!  \n--------------------------------------------------------------------------------";
-        Locations MeadowOfLivingFlowers = new Locations(roomExitHashMap, hasVisited, fullDescriptionFileName,
-                shortDescription, new ArrayList<>(Arrays.asList(key, coin, coin)), false, charactersList, false);
+        Locations MeadowOfLivingFlowers = new Locations(
+                roomExitHashMap,
+                hasVisited,
+                fullDescriptionFileName,
+                shortDescription,
+                new ArrayList<>(Arrays.asList(key, coin, coin, mushroom, apple)),
+                false,
+                charactersList,
+                false,
+                new ArrayList<>(Arrays.asList()),
+                new ArrayList<>(Arrays.asList())
+        );
 
         roomExitHashMap = new HashMap<String, Locations>();
         hasVisited = false;
         fullDescriptionFileName = "SafeRoom.txt";
         shortDescription = " Welcome back to the Safe Room!  \n--------------------------------------------------------------------------------";
-        Locations SafeRoom = new Locations(roomExitHashMap, hasVisited, fullDescriptionFileName,
-                shortDescription, new ArrayList<>(Arrays.asList(turkey, coin)), true, charactersList, true);
+        Locations SafeRoom = new Locations(
+                roomExitHashMap,
+                hasVisited,
+                fullDescriptionFileName,
+                shortDescription,
+                new ArrayList<>(Arrays.asList(turkey, coin, mushroom, turkey)),
+                true,
+                charactersList,
+                true,
+                new ArrayList<>(Arrays.asList()),
+                new ArrayList<>(Arrays.asList())
+        );
+
+        roomExitHashMap = new HashMap<String, Locations>();
+        hasVisited = false;
+        fullDescriptionFileName = "WinningLocationText.txt";
+        shortDescription = " Welcome back to the Winning Location!  \n--------------------------------------------------------------------------------";
+        Locations WinningLocation = new WinningLocation(
+                roomExitHashMap,
+                hasVisited,
+                fullDescriptionFileName,
+                shortDescription,
+                new ArrayList<>(Arrays.asList()),
+                true,
+                charactersList,
+                true,
+                new ArrayList<>(Arrays.asList()),
+                new ArrayList<>(Arrays.asList())
+        );
+
 
         WhiteRabbitHouse.roomExitHashMap.put("east", MadHatterHouse);
+
+        WhiteRabbitHouse.roomExitHashMap.put("south", HoleRoom);
 
         MadHatterHouse.roomExitHashMap.put("west", WhiteRabbitHouse);
 
@@ -112,9 +215,25 @@ public class Wonderland {
 
         MeadowOfLivingFlowers.roomExitHashMap.put("west", SafeRoom);
 
+        MeadowOfLivingFlowers.roomExitHashMap.put("east", HoleRoom);
+
+        MeadowOfLivingFlowers.roomExitHashMap.put("north", WinningLocation);
+
         SafeRoom.roomExitHashMap.put("east", MeadowOfLivingFlowers);
 
         SafeRoom.roomExitHashMap.put("south", WhiteRabbitHouse);
+
+        SafeRoom.roomExitHashMap.put("south", WhiteRabbitHouse);
+
+        WinningLocation.roomExitHashMap.put("south", MeadowOfLivingFlowers);
+
+
+
+        // teleporting rooms
+
+        HashMap<String,Locations> teleportLocations = new HashMap<>();
+        teleportLocations.put("safeRoom", SafeRoom);
+        teleportLocations.put("winningLocationRoom", WinningLocation);
 
         /*
          * Introduction
@@ -146,7 +265,7 @@ public class Wonderland {
 
         // Instantiate game state
 
-        GameState gameState = new GameState(alice, WhiteRabbitHouse, inventory);
+        GameState gameState = new GameState(alice, WhiteRabbitHouse, inventory, teleportLocations);
         gameState.location.loadLocation();
         // Entering first room
 
@@ -156,18 +275,5 @@ public class Wonderland {
 
         control.userInput();
 
-        /*
-         * gameState.location.loadLocation();
-         * gameState.setLocation("east");
-         * 
-         * gameState.location.loadLocation();
-         * 
-         * gameState.setLocation("west");
-         * 
-         * gameState.location.loadLocation();
-         */
-
-        // MadHatterHouse.loadLocation();
-        // MadHatterHouse.loadLocation();
     }
 }

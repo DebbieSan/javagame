@@ -1,3 +1,7 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+
 public class Actions {
 
     // grab go drop eat drink throw east west north south use open
@@ -12,17 +16,22 @@ public class Actions {
         this.gameState = gameState;
     }
 
+// reduces player health if King of Hearts is in the room and if queen is there, empties player health.
+
     public void reducePlayerEnergy(GameState gameState) {
         if (gameState.location.npc != null) {
             if (gameState.location.npc.characterName.equals("Queen of Hearts")) {
                 gameState.player.energy -= 50;
-                System.exit(0);
-                System.out.println("You lost!");
             } else if (gameState.location.npc.characterName.equals("King of Hearts")) {
                 gameState.player.energy -= 25;
-                System.out.println("You have lost 25 energy");
+                System.out.println("You have lost 25 energy. Your energy is now " + (gameState.player.energy <= 0 ? 0 : gameState.player.energy));
 
             }
+        }
+
+        if (gameState.player.energy <= 0) {
+            System.out.println("Oh no! Your health has fallen to zero! You lost!");
+            System.exit(0);
         }
 
     }
@@ -33,10 +42,18 @@ public class Actions {
             case "go":
 
                 if (gameState.isValidExit(gameState.lastNoun)) {
+                   if(
+                        gameState.getLocation(gameState.lastNoun).playerMeetsEntryRequirements(gameState.inventory) &&
+                        gameState.location.playerMeetsExitRequirements(gameState.inventory)
+                    ){
+                       gameState.setLocation(gameState.lastNoun);
+                       gameState.location.loadLocation();
+                       reducePlayerEnergy(gameState);
+                       gameState.location.specialLocationLogic(gameState); 
+                   };
 
-                    gameState.setLocation(gameState.lastNoun);
-                    gameState.location.loadLocation();
-                    reducePlayerEnergy(gameState);
+                    // Here is where we check the location's exit requirements; if not met, print message
+                    // Here is where we do the check on the new location's requirements; if not met, print message
                 } else {
                     System.out.println("Not a valid direction.");
                 }
@@ -49,6 +66,22 @@ public class Actions {
                 } else if (gameState.lastNoun.equals("e")) {
                     System.out.println("Your energy is: " + gameState.player.energy);
 
+                }else if (gameState.lastNoun.equals("help")) {
+                    try {
+
+                        File textFile = new File("Help.txt");
+                        Scanner fileReader = new Scanner(textFile);
+
+                        while (fileReader.hasNextLine()) {
+                            String data = fileReader.nextLine();
+                            System.out.println(data);
+                        }
+
+                        fileReader.close();
+
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
                 }
 
                 else {
@@ -56,6 +89,25 @@ public class Actions {
                 }
                 return;
             case "use":
+                if(gameState.lastNoun.equals("cookie") || gameState.lastNoun.equals("bottle") || gameState.lastNoun.equals("mushroom") || gameState.lastNoun.equals("apple") || gameState.lastNoun.equals("turkey") || gameState.lastNoun.equals("apple") || gameState.lastNoun.equals("butterfly")){
+                    Items item = gameState.inventory.checkAndGetItem(gameState.lastNoun);
+                    item.useItem(gameState.player);
+                    gameState.inventory.remove(item);
+
+                }else if(gameState.lastNoun.equals("transporter")){
+                    Locations safeRoom = gameState.teleportLocation.get("safeRoom");
+                    gameState.location = safeRoom;
+                    gameState.location.loadLocation();
+                    reducePlayerEnergy(gameState);
+                    gameState.location.specialLocationLogic(gameState); 
+                }else if(gameState.lastNoun.equals("win")){
+                    Locations WinningLocation = gameState.teleportLocation.get("winningLocationRoom");
+                    gameState.location = WinningLocation;
+                    gameState.location.loadLocation();
+                    reducePlayerEnergy(gameState);
+                    gameState.location.specialLocationLogic(gameState); 
+                }return;
+                
                 
 
             case "grab":
@@ -107,6 +159,10 @@ public class Actions {
                 if (gameState.location.characterDialogue.hasNextLine()) {
                     System.out.println(gameState.location.characterDialogue.nextLine());
                 }
+
+            case "exit":
+                System.exit(0);
+                
 
             default:
 

@@ -7,6 +7,9 @@ import java.util.Set;
 import java.util.Random;//import the random number class
 import java.util.Collections;
 
+
+
+
 public class Locations {
 
     // HashMap<String, Locations> roomExitHashMap = new HashMap<String,
@@ -22,10 +25,13 @@ public class Locations {
     boolean noNpcsAllowed = false;
     boolean haveMet = false;
     Scanner characterDialogue;
+    ArrayList<String> entryRequirements;
+    ArrayList<String> exitRequirements;
+
 
     public Locations(HashMap<String, Locations> roomExitHashMap, boolean hasVisited, String fullDescriptionFileName,
             String shortDescription, ArrayList<Items> items, boolean isSafeRoom, ArrayList<Characters> charactersList,
-            boolean noNpcsAllowed) {
+            boolean noNpcsAllowed, ArrayList<String> entryRequirements, ArrayList<String> exitRequirements) {
         this.roomExitHashMap = roomExitHashMap;
         this.hasVisited = hasVisited;
         this.fullDescriptionFileName = fullDescriptionFileName;
@@ -34,6 +40,8 @@ public class Locations {
         this.isSafeRoom = isSafeRoom;
         this.charactersList = charactersList;
         this.noNpcsAllowed = noNpcsAllowed;
+        this.entryRequirements = entryRequirements;
+        this.exitRequirements = exitRequirements;
 
     }
 
@@ -45,8 +53,6 @@ public class Locations {
 
             File textFile = new File(fullDescriptionFileName);
             Scanner fileReader = new Scanner(textFile);
-
-            // For each line: add that line's word count to the total.
 
             while (fileReader.hasNextLine()) {
                 String data = fileReader.nextLine();
@@ -113,18 +119,6 @@ public class Locations {
                 System.out.println("grab to add more " + item.name + " for your collection!");
                 System.out.println("--------------------------------------------------------------------------------");
             }
-
-            /*
-             * if (!hasDisplayed) {
-             * System.out.println(item.displayText);
-             * item.name.hasDisplayed = true;
-             * 
-             * } else {
-             * System.out.println(
-             * "--------------------------------------------------------------------------------"
-             * );
-             * }
-             */
         }
 
     }
@@ -162,13 +156,6 @@ public class Locations {
                 this.characterDialogue = new Scanner(new File(npc.characterTextFile));
                 System.out.println(characterDialogue.nextLine());
 
-                /*
-                 * while (sc2.hasNextLine()) {
-                 * System.out.println(sc2.nextLine());
-                 * 
-                 * }
-                 */
-
                 haveMet = true;
                 // sc2.close();
             } catch (FileNotFoundException e) {
@@ -179,4 +166,37 @@ public class Locations {
 
         }
     }
+
+    // return true if player can enter the room
+    public boolean playerMeetsEntryRequirements(Inventory inventory) {
+        System.out.println("Checking requirements...");
+    
+        for(String entryItem : entryRequirements ){
+            Items inventoryItem = inventory.checkAndGetItem(entryItem);
+            if(inventoryItem == null){
+                System.out.println("Sorry, you are missing " + entryItem);
+                return false;
+            } 
+        } return true;
+
+    }
+
+    // return true if player can exit the room
+    public boolean playerMeetsExitRequirements(Inventory inventory) {
+
+    
+        for(String exitItem : exitRequirements ){
+            Items inventoryItem = inventory.checkAndGetItem(exitItem);
+            if(inventoryItem == null){
+                System.out.println("Sorry you can't exit this room, you are missing " + exitItem);
+                System.out.println("Game over.");
+                System.exit(0);
+                return false;
+            } 
+        } return true;
+    }
+
+// A special logic for the hole room, other rooms won't use it
+
+    public void specialLocationLogic(GameState gameState){}
 }

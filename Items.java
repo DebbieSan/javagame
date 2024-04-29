@@ -6,17 +6,18 @@ public class Items {
     String displayText;
     // int energy;
     int count;
-    int modifier; // used by used Items to modify character's attributes by `modifier`.
+    int useItemModifier; // used by used Items to modify character's attributes by `modifier`.
 
     
     // boolean hasDisplayed = false;
 
-    public Items(String name, String displayText, int count, int modifier) {
+    public Items(String name, String displayText, int count, int useItemModifier) {
         this.name = name;
         this.displayText = displayText;
         // this.energy = energy;
         this.count = count;
         // this.hasDisplayed = hasDisplayed;
+        this.useItemModifier = useItemModifier;
 
     }
 

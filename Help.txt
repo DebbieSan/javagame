@@ -1,0 +1,15 @@
+Commands in this game require two words, a verb and a noun.
+
+Use `use` with the item name, to use the item.
+
+Use `go` with the exit direction to go through an exit.
+
+Use `open` with `i`, `e`, or `help` to open your inventory, see your energy, and see the help respectively.
+
+Use `grab` with item name to pick up the item.
+
+Use `place` with the item name to place the item in the current room.
+
+Use `talk` to talk with a character.
+
+Use `exit game` to exit the game.
