@@ -5,12 +5,36 @@ import java.util.Arrays; // import this class for Array methods
 import java.util.HashMap;//import the HashMap class
 import java.util.Scanner; // Import the Scanner class to read text files
 
+/**
+ * Compilation: javac Wonderland.java
+ * Run: java Wonderland
+ * Generate Javadocs: javadoc 
+ * 
+ * Wonderland is the main entrypoint for the Wonderland game.
+ * 
+ * It has the main function * that coordinates all the game logic and instantiates all the classes.
+ * This includes:
+ * - creating every Character and putting them into an ArrayList of Characters;
+ * - creating every item;
+ * - creating every location;
+ * - creating the Control class object;
+ * - creating the Actions class object; and
+ * - creating the GameState class object.
+ * 
+ * Everything is then loaded into its respective objects (e.g. items into rooms), then all the objects are
+ * loaded into GameState, information the game is printed, the first locatoin is loaded, and then the
+ * main function calls Control and passes in the GameState object, and that starts a Scanner that awaits player
+ * input in an infinite loop, parsing each command in Control, sending it to Actions, and using the appropriate item,
+ * loading the appropriate room, etc.
+ */
 public class Wonderland {
-
+    /**
+     * The main entry point.
+     * @param args this game takes no arguments
+     */
     public static void main(String[] args) {
-
         // Create Alice
-
+        
         Characters alice = new Characters("alice", 50, "alice.txt");
 
         // Create other characters
@@ -18,7 +42,7 @@ public class Wonderland {
         Characters queenOfHearts = new Characters("Queen of Hearts", 50, "queenOfHearts.txt");
         Characters whiteRabbit = new Characters("White Rabbit", 50, "whiteRabbit.txt");
         Characters cheshireCat = new Characters("Cheshire Cat", 50, "cheshireCat.txt");
-        Characters madHatter = new Characters(" Mad Hatter", 50, "madHatter.txt");
+        Characters madHatter = new MadHatterCharacter("Mad Hatter", 50, "madHatter.txt");
         Characters kingOfHearts = new Characters("King of Hearts", 50, "kingOfHearts.txt");
 
         ArrayList<Characters> charactersList = new ArrayList<>(
@@ -28,73 +52,141 @@ public class Wonderland {
 
         Items cookie = new ItemSize(
                 "cookie",
-                "The cookie reads 'eat me'",
+                "ItemTextCookie.txt",
                 1,
-                -1
+                -1,
+                true
                 );
 
         Items bottle = new ItemSize(
                 "bottle",
-                "The bottle reads 'drink me'",
+                "ItemTextBottle.txt",
                 1,
-                1
+                1,
+                true
         );
 
         Items mushroom = new ItemSize(
                 "mushroom",
-                "The mushroom helps you get back to normal",
+                "ItemTextMushroom.txt",
                 1,
-                0);
+                0,
+                true
+        );
 
         Items butterfly = new ItemEnergy(
                 "butterfly",
-                "what a cute little butterfly, I bet I can use it!",
+                "ItemTextButterfly.txt",
                 1,
-                -10);
+                -10,
+                true
+        );
 
         Items key = new Items(
                 "key",
-                "Use this key to enter through tiny doors.",
+                "ItemTextKey.txt",
                 1,
-                0);
+                0,
+                false
+        );
         
-        Items transporter = new Items(
+        Items transporter = new ItemTransporter(
                 "transporter",
-                "Use this transporter to get out of tough situations.",
+                "ItemTextTransporter.txt",
                 1,
-                0);
+                0,
+                false
+        );
         
 
         Items turkey = new ItemEnergy(
                 "turkey",
-                "Eat this turkey to recover your full energy.",
+                "ItemTextTurkey.txt",
                 1,
-                50);
+                50,
+                true
+        );
 
         Items apple = new ItemEnergy(
                 "apple",
-                "This apple restores half of your energy",
+                "ItemTextApple.txt",
                 1,
-                25);
+                25,
+                true
+        );
 
         Items bunny = new Items(
                 "bunny",
-                "Collect bunnies and keep them with you to protect them against evil.",
+                "ItemTextBunny.txt",
                 1,
-                0);
+                0,
+                false
+        );
 
         Items coin = new Items(
                 "coin",
-                "Collect coins to increase points",
+                "ItemTextCoin.txt",
                 1,
-                0);
+                0,
+                false
+        );
 
-        
+        Items watch = new Items(
+                "watch",
+                "ItemTextWatch.txt",
+                1,
+                0,
+                false
+        );
+
+        Items fan = new ItemSize(
+                "fan",
+                "ItemTextFan.txt",
+                1,
+                -1,
+                false
+        );
+
+        Items flower = new ItemEnergy(
+                "flower",
+                "ItemTextFlower.txt",
+                1,
+                -5,
+                true
+        );
+
+        Items tea = new ItemEnergy(
+                "tea",
+                "ItemTextTea.txt",
+                1,
+                5,
+                true
+        );
                 
-        
-
-
-
+        Items treacle = new ItemEnergy(
+                "treacle",
+                "ItemTextTreacle.txt",
+                1,
+                -1,
+                true
+        );
+                
+        Items mallet = new Items(
+                "mallet",
+                "ItemTextMallet.txt",
+                1,
+                0,
+                false
+        );
+                
+        Items orange = new ItemEnergy(
+                "orange",
+                "ItemTextOrange.txt",
+                1,
+                15,
+                true
+        );
+                
         // load locations into memory
 
         HashMap<String, Locations> roomExitHashMap = new HashMap<String, Locations>();
@@ -106,7 +198,7 @@ public class Wonderland {
                 hasVisited,
                 fullDescriptionFileName,
                 shortDescription,
-                new ArrayList<>(Arrays.asList(transporter, cookie, cookie, bunny, bunny, coin, coin, mushroom, apple, turkey, butterfly, key, butterfly,butterfly, cookie, bottle)),
+                new ArrayList<>(Arrays.asList(transporter, cookie, cookie, bunny, bunny, coin, coin, mushroom, apple, butterfly, key, butterfly, cookie, bottle, watch)),
                 false,
                 charactersList,
                 true,
@@ -123,7 +215,7 @@ public class Wonderland {
                 hasVisited,
                 fullDescriptionFileName,
                 shortDescription,
-                new ArrayList<>(Arrays.asList(bottle, bunny, bunny, bunny, coin, mushroom, butterfly)),
+                new ArrayList<>(Arrays.asList(bottle, bunny, bunny, bunny, coin, coin, mushroom, butterfly, tea, treacle)),
                 false,
                 charactersList,
                 false,
@@ -160,7 +252,7 @@ public class Wonderland {
                 hasVisited,
                 fullDescriptionFileName,
                 shortDescription,
-                new ArrayList<>(Arrays.asList(key, coin, coin, mushroom, apple)),
+                new ArrayList<>(Arrays.asList(key, coin, coin, mushroom, apple, flower, fan, mallet)),
                 false,
                 charactersList,
                 false,
@@ -177,7 +269,7 @@ public class Wonderland {
                 hasVisited,
                 fullDescriptionFileName,
                 shortDescription,
-                new ArrayList<>(Arrays.asList(turkey, coin, mushroom, turkey)),
+                new ArrayList<>(Arrays.asList(turkey, coin, coin, coin, mushroom, turkey, bunny, bunny)),
                 true,
                 charactersList,
                 true,
@@ -187,8 +279,8 @@ public class Wonderland {
 
         roomExitHashMap = new HashMap<String, Locations>();
         hasVisited = false;
-        fullDescriptionFileName = "WinningLocationText.txt";
-        shortDescription = " Welcome back to the Winning Location!  \n--------------------------------------------------------------------------------";
+        fullDescriptionFileName = "TheTree.txt";
+        shortDescription = " Welcome back to The Tree!  \n--------------------------------------------------------------------------------";
         Locations WinningLocation = new WinningLocation(
                 roomExitHashMap,
                 hasVisited,
@@ -212,13 +304,18 @@ public class Wonderland {
                 hasVisited,
                 fullDescriptionFileName,
                 shortDescription,
-                new ArrayList<>(Arrays.asList()),
+                new ArrayList<>(Arrays.asList(coin, coin, coin, bunny, orange)),
                 false,
                 charactersList,
                 false,
                 new ArrayList<>(Arrays.asList()),
                 1 // Must be big to enter - use the bottle.
         );
+
+
+        // load locations into the HashMap of rooms. Each room stores its exits in a HashMap, where
+        // for example, 'north' is associated with a particular location object, and 'south' another.
+        // Each room only knows its own exits, but ultimately they form a web of connected rooms.
 
         WhiteRabbitHouse.roomExitHashMap.put("east", MadHatterHouse);
 
@@ -232,7 +329,7 @@ public class Wonderland {
 
         WonderlandMaze.roomExitHashMap.put("west", MadHatterHouse);
 
-        MeadowOfLivingFlowers.roomExitHashMap.put("south", MeadowOfLivingFlowers);
+        MeadowOfLivingFlowers.roomExitHashMap.put("south", MadHatterHouse);
 
         MeadowOfLivingFlowers.roomExitHashMap.put("west", SafeRoom);
 
@@ -244,20 +341,22 @@ public class Wonderland {
 
         SafeRoom.roomExitHashMap.put("south", WhiteRabbitHouse);
 
-        SafeRoom.roomExitHashMap.put("south", WhiteRabbitHouse);
-
         WinningLocation.roomExitHashMap.put("south", MeadowOfLivingFlowers);
 
 
 
-        // teleporting rooms
+        // teleporting rooms - rooms the game needs to access without a connection via the roomExitHashMap.
 
         HashMap<String,Locations> teleportLocations = new HashMap<>();
         teleportLocations.put("safeRoom", SafeRoom);
         teleportLocations.put("winningLocationRoom", WinningLocation);
 
+        // Map of items to make available in game state. The Mad Hatter summons bunnies from here.
+        HashMap<String,Items> handyItems = new HashMap<>();
+        handyItems.put("bunny", bunny);
+
         /*
-         * Introduction
+         * Print out the Introduction
          */
         String fileName = "welcome.txt";
 
@@ -265,8 +364,6 @@ public class Wonderland {
         try {
             File textFile = new File(fileName);
             Scanner fileReader = new Scanner(textFile);
-
-            // For each line: add that line's word count to the total.
 
             while (fileReader.hasNextLine()) {
                 String data = fileReader.nextLine();
@@ -286,11 +383,11 @@ public class Wonderland {
 
         // Instantiate game state
 
-        GameState gameState = new GameState(alice, WhiteRabbitHouse, inventory, teleportLocations);
-        gameState.location.loadLocation();
+        GameState gameState = new GameState(alice, WhiteRabbitHouse, inventory, teleportLocations, handyItems);
+        gameState.location.loadLocation(gameState);
         // Entering first room
 
-        // entering control loop
+        // entering control loop to run the game
 
         Control control = new Control(gameState);
 

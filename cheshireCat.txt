@@ -1,4 +1,4 @@
 A perpetually grinning cat who appears and disappears at will. The Cheshire Cat displays a detached, clearheaded logic and explains Wonderland’s madness to Alice.
-text 1
-text 2
-text 3
+"Everyone is mad here", claims the Cheshire Cat. "I'm mad, you're mad, we're all mad."
+"I see you don't believe me. But indeed, you are mad, for if you were not, then you would not be here. But you are here, so you must be mad too."
+"Have you met the Queen yet", asked the Cheshire Cat? "I will see you again at the croquet match if you are there."

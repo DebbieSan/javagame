@@ -1,15 +1,17 @@
-Commands in this game require two words, a verb and a noun.
+Commands in this game require two words, a verb and a noun, and are case insensitive.
 
 Use `use` with the item name, to use the item.
 
-Use `go` with the exit direction to go through an exit.
+Use `go` with the exit direction to go through an exit. Each direction has a shortcut, so you can type `go north` or `go n`.
 
-Use `open` with `i`, `e`, or `help` to open your inventory, see your energy, and see the help respectively.
+use `go exits` to see the exits again.
 
-Use `grab` with item name to pick up the item.
+Use `open` with `inventory`, `energy`, or `help` to open your inventory, see your energy, and see the help respectively. These have shortcuts of `open` and `i`, `e`, `h`.
+
+Use `grab` with item name to pick up the item, or `grab all` to grab everything in the room.
 
 Use `place` with the item name to place the item in the current room.
 
-Use `talk <character name>` to talk with a character.
+Use `talk character` to talk with a character. Continue to use `talk character` until they've no more to say.
 
 Use `exit game` to exit the game.
